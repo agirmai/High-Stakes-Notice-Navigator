@@ -225,3 +225,16 @@ body {
 .example-btn:hover {
   color: #a85c38;
 }
+.card-legal-aid {
+  background-color: #f0f7f4;
+  border-color: #a8d5c2;
+}
+
+.card a {
+  color: #c0714a;
+  text-decoration: underline;
+}
+
+.card a:hover {
+  color: #a85c38;
+}

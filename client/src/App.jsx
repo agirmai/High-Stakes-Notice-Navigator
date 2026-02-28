@@ -223,6 +223,15 @@ export default function App() {
                 {results.questions.map((q, i) => <li key={i}>{q}</li>)}
               </ul>
             </div>
+            <div className="card card-legal-aid">
+            <div className="card-title">🔍 Find Legal Help Near You</div>
+            <p>These organizations offer free or low-cost legal help for tenants facing eviction:</p>
+            <ul>
+              <li><a href="https://www.lawhelp.org" target="_blank" rel="noreferrer">LawHelp.org</a> — find free legal aid in your state</li>
+              <li><a href="https://www.lsc.gov/about-lsc/what-legal-aid/get-legal-help" target="_blank" rel="noreferrer">Legal Services Corporation</a> — federally funded legal aid locator</li>
+              <li><a href="https://www.illinoislegalaid.org" target="_blank" rel="noreferrer">Illinois Legal Aid Online</a> — if you're in Illinois</li>
+            </ul>
+            </div>
 
           </div>
         )}
