@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import './App.css'
 
 export default function App() {
   const [noticeText, setNoticeText] = useState('')
@@ -8,7 +9,7 @@ export default function App() {
 
   const analyze = async () => {
     if (!noticeText.trim()) return
-    
+
     setLoading(true)
     setError(null)
     setResults(null)
@@ -21,9 +22,7 @@ export default function App() {
       })
 
       const data = await response.json()
-
       if (!response.ok) throw new Error(data.error)
-
       setResults(data)
     } catch (err) {
       setError(err.message)
@@ -33,38 +32,69 @@ export default function App() {
   }
 
   return (
-    <div>
-      <h1>Notice Navigator</h1>
-      <p>Understand your eviction notice in plain English</p>
+    <div className="page">
+      <div className="container">
 
-      <textarea
-        value={noticeText}
-        onChange={(e) => setNoticeText(e.target.value)}
-        placeholder="Paste your eviction notice here..."
-        rows={10}
-      />
-
-      <button onClick={analyze} disabled={loading}>
-        {loading ? 'Analyzing...' : 'Analyze My Notice'}
-      </button>
-
-      {error && <p style={{color: 'red'}}>{error}</p>}
-
-      {results && (
-        <div>
-          <h2>Summary</h2>
-          <p>{results.summary}</p>
-
-          <h2>Deadlines</h2>
-          <ul>{results.deadlines.map((d, i) => <li key={i}>{d}</li>)}</ul>
-
-          <h2>What Happens If You Do Nothing</h2>
-          <p>{results.consequences}</p>
-
-          <h2>Questions to Ask Legal Aid</h2>
-          <ul>{results.questions.map((q, i) => <li key={i}>{q}</li>)}</ul>
+        <div className="header">
+          <h1>🏠 Notice Navigator</h1>
+          <p className="tagline">Understand your eviction notice in plain English — quickly and clearly.</p>
         </div>
-      )}
+
+        <div className="disclaimer">
+          ⚠️ <strong>This tool does not provide legal advice.</strong> It helps you understand
+          what your notice says in plain language. Always verify with a licensed attorney
+          or local legal aid organization. No data is stored.
+        </div>
+
+        <label className="label">Paste your eviction notice below</label>
+        <textarea
+          className="textarea"
+          value={noticeText}
+          onChange={(e) => setNoticeText(e.target.value)}
+          placeholder="Paste the full text of your eviction notice here..."
+        />
+
+        <button
+          className={`btn ${loading ? 'btn-disabled' : ''}`}
+          onClick={analyze}
+          disabled={loading}
+        >
+          {loading ? 'Analyzing...' : 'Analyze My Notice →'}
+        </button>
+
+        {error && <div className="error">⚠️ {error}</div>}
+
+        {results && (
+          <div className="results">
+
+            <div className="card">
+              <div className="card-title">📄 Plain English Summary</div>
+              <p>{results.summary}</p>
+            </div>
+
+            <div className="card card-deadline">
+              <div className="card-title">⏰ Critical Deadlines</div>
+              <ul>
+                {results.deadlines.map((d, i) => <li key={i}>{d}</li>)}
+              </ul>
+            </div>
+
+            <div className="card">
+              <div className="card-title">⚠️ What Happens If You Do Nothing</div>
+              <p>{results.consequences}</p>
+            </div>
+
+            <div className="card">
+              <div className="card-title">💬 Questions to Ask Legal Aid</div>
+              <ul>
+                {results.questions.map((q, i) => <li key={i}>{q}</li>)}
+              </ul>
+            </div>
+
+          </div>
+        )}
+
+      </div>
     </div>
   )
 }
