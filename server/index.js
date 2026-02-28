@@ -77,6 +77,37 @@ app.post('/analyze', async (req, res) => {
   }
 })
 
+app.post('/translate', async (req, res) => {
+  const { results } = req.body
+
+  if (!results) {
+    return res.status(400).json({ error: 'No results to translate' })
+  }
+
+  try {
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+
+    const prompt = `
+      Translate the following JSON object into Spanish.
+      Keep the exact same JSON structure and keys.
+      Only translate the values, not the keys.
+      Respond ONLY with the JSON object, no markdown, no backticks.
+
+      ${JSON.stringify(results)}
+    `
+
+    const result = await model.generateContent(prompt)
+    const text = result.response.text()
+    const clean = text.replace(/```json|```/g, '').trim()
+    const parsed = JSON.parse(clean)
+
+    res.json(parsed)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Something went wrong translating' })
+  }
+})
+
 const PORT = 5000
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`)

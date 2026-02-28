@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import './App.css'
 
-
-
-
 const EXAMPLE_NOTICE = `UNLAWFUL DETAINER — NOTICE TO PAY RENT OR QUIT PURSUANT TO C.C.P. §1161(2)
 
 TO: Occupant(s) and all persons in possession of the hereinafter described premises:
@@ -47,11 +44,6 @@ By: ___________________________
     Authorized Agent for Lessor
     Pacific Crest Property Associates, LLC`
 
-
-
-
-
-
 export default function App() {
   const [noticeText, setNoticeText] = useState('')
   const [image, setImage] = useState(null)
@@ -59,6 +51,29 @@ export default function App() {
   const [results, setResults] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [translated, setTranslated] = useState(false)
+
+  const translate = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch('http://localhost:5000/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ results })
+      })
+
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error)
+      setResults(data)
+      setTranslated(true)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0]
@@ -69,7 +84,7 @@ export default function App() {
       const base64 = reader.result.split(',')[1]
       setImage({ base64, mimeType: file.type })
       setImagePreview(reader.result)
-      setNoticeText('') // clear text if image is uploaded
+      setNoticeText('')
     }
     reader.readAsDataURL(file)
   }
@@ -85,6 +100,7 @@ export default function App() {
     setLoading(true)
     setError(null)
     setResults(null)
+    setTranslated(false)
 
     try {
       const body = image
@@ -121,12 +137,14 @@ export default function App() {
           what your notice says in plain language. Always verify with a licensed attorney
           or local legal aid organization. No data is stored.
         </div>
+
         <div className="label-row">
-        <label className="label">Paste your eviction notice below</label>
-        <button className="example-btn" onClick={() => { setNoticeText(EXAMPLE_NOTICE); clearImage() }}>
-          See an Example Notice!
-        </button>
+          <label className="label">Paste your eviction notice below</label>
+          <button className="example-btn" onClick={() => { setNoticeText(EXAMPLE_NOTICE); clearImage() }}>
+            See an Example Notice!
+          </button>
         </div>
+
         <textarea
           className="textarea"
           value={noticeText}
@@ -170,6 +188,17 @@ export default function App() {
 
         {results && (
           <div className="results">
+
+            <div className="translate-row">
+              {!translated
+                ? <button className="translate-btn" onClick={translate} disabled={loading}>
+                    🌐 Traducir al Español
+                  </button>
+                : <button className="translate-btn" onClick={() => { setTranslated(false); analyze() }} disabled={loading}>
+                    🌐 Switch back to English
+                  </button>
+              }
+            </div>
 
             <div className="card">
               <div className="card-title">📄 Plain English Summary</div>
