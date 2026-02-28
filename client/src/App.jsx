@@ -1,6 +1,57 @@
 import { useState } from 'react'
 import './App.css'
 
+
+
+
+const EXAMPLE_NOTICE = `UNLAWFUL DETAINER — NOTICE TO PAY RENT OR QUIT PURSUANT TO C.C.P. §1161(2)
+
+TO: Occupant(s) and all persons in possession of the hereinafter described premises:
+
+PREMISES: 247 Hollenbeck Avenue, Unit 3C, Los Angeles, California 90033
+
+TAKE NOTICE that the rent for the above-described premises is in arrears in the following amount:
+
+  Rental period: November 1, 2024 – November 30, 2024
+  Monthly rental rate: $1,575.00
+  Amount in default: $1,575.00
+  Late fees accrued per Lease §6(b): $75.00
+  TOTAL AMOUNT DUE AND OWING: $1,650.00
+
+YOU ARE HEREBY REQUIRED, pursuant to California Civil Code §1946 and Code of Civil Procedure §1161 et seq., to do ONE of the following within THREE (3) DAYS after service of this notice, excluding Saturdays, Sundays, and judicial holidays:
+
+  (1) Pay the full amount stated herein to the authorized agent of the lessor at the address designated below; OR
+  (2) Vacate and surrender possession of the subject premises to the undersigned.
+
+FAILURE TO COMPLY with the terms of this notice within the prescribed statutory period will result in the commencement of an Unlawful Detainer action against you in the Superior Court of the State of California, County of Los Angeles, wherein Lessor will seek:
+  — Restitution of the premises
+  — A writ of possession
+  — A monetary judgment for all unpaid rent, holdover damages, attorney's fees pursuant to the subject lease agreement, and all costs of suit
+
+Payment must be made in the form of cashier's check, money order, or certified funds only. Personal checks will NOT be accepted. Cash payments must be made in person at the address below and a receipt obtained.
+
+Rent may be tendered to:
+  Pacific Crest Property Associates, LLC
+  Attn: Legal Collections Department
+  8800 Wilshire Blvd., Suite 410
+  Beverly Hills, CA 90211
+  Hours: Monday–Friday, 9:00 AM – 4:00 PM
+
+This notice has been served upon you in accordance with C.C.P. §1162 by the method indicated in the accompanying Proof of Service.
+
+THIS IS A LEGAL DOCUMENT. IF YOU FAIL TO ACT WITHIN THE TIME STATED, YOU MAY BE EVICTED AND A COURT JUDGMENT MAY BE ENTERED AGAINST YOU, WHICH COULD AFFECT YOUR CREDIT AND YOUR ABILITY TO RENT IN THE FUTURE.
+
+Dated this 5th day of November, 2024.
+
+By: ___________________________
+    Authorized Agent for Lessor
+    Pacific Crest Property Associates, LLC`
+
+
+
+
+
+
 export default function App() {
   const [noticeText, setNoticeText] = useState('')
   const [image, setImage] = useState(null)
@@ -70,8 +121,12 @@ export default function App() {
           what your notice says in plain language. Always verify with a licensed attorney
           or local legal aid organization. No data is stored.
         </div>
-
+        <div className="label-row">
         <label className="label">Paste your eviction notice below</label>
+        <button className="example-btn" onClick={() => { setNoticeText(EXAMPLE_NOTICE); clearImage() }}>
+          See an Example Notice!
+        </button>
+        </div>
         <textarea
           className="textarea"
           value={noticeText}

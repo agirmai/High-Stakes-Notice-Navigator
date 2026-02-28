@@ -199,3 +199,29 @@ body {
   padding-left: 20px;
   line-height: 2;
 }
+
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.label-row .label {
+  margin-bottom: 0;
+}
+
+.example-btn {
+  background: none;
+  border: none;
+  color: #c0714a;
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.example-btn:hover {
+  color: #a85c38;
+}
