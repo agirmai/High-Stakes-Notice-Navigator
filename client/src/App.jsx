@@ -44,6 +44,15 @@ By: ___________________________
     Authorized Agent for Lessor
     Pacific Crest Property Associates, LLC`
 
+
+
+
+const renderBold = (text) => {
+  const parts = text.split(/\*\*(.*?)\*\*/g)
+  return parts.map((part, i) =>
+    i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+  )
+}
 export default function App() {
   const [noticeText, setNoticeText] = useState('')
   const [image, setImage] = useState(null)
@@ -52,6 +61,24 @@ export default function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [translated, setTranslated] = useState(false)
+
+
+  const labels = translated ? {
+  summary: '📄 Resumen en Español',
+  deadlines: '⏰ Fechas Límite',
+  consequences: '⚠️ Qué Pasa Si No Haces Nada',
+  questions: '💬 Preguntas Para Pedir Ayuda Legal',
+  legalAid: '🔍 Encuentra Ayuda Legal Cerca de Ti'
+} : {
+  summary: '📄 Plain English Summary',
+  deadlines: '⏰ Critical Deadlines',
+  consequences: '⚠️ What Happens If You Do Nothing',
+  questions: '💬 Questions to Ask Legal Aid',
+  legalAid: '🔍 Find Legal Help Near You'
+}
+
+
+
 
   const translate = async () => {
     setLoading(true)
@@ -201,30 +228,30 @@ export default function App() {
             </div>
 
             <div className="card">
-              <div className="card-title">📄 Plain English Summary</div>
-              <p>{results.summary}</p>
+              <div className="card-title">{labels.summary}</div>
+              <p>{renderBold(results.summary)}</p>
             </div>
 
             <div className="card card-deadline">
-              <div className="card-title">⏰ Critical Deadlines</div>
+              <div className="card-title">{labels.deadlines}</div>
               <ul>
-                {results.deadlines.map((d, i) => <li key={i}>{d}</li>)}
+                {results.deadlines.map((d, i) => <li key={i}>{renderBold(d)}</li>)}
               </ul>
             </div>
 
             <div className="card">
-              <div className="card-title">⚠️ What Happens If You Do Nothing</div>
-              <p>{results.consequences}</p>
+              <div className="card-title">{labels.consequences}</div>
+              <p>{renderBold(results.consequences)}</p>
             </div>
 
             <div className="card">
-              <div className="card-title">💬 Questions to Ask Legal Aid</div>
+              <div className="card-title">{labels.questions}</div>
               <ul>
-                {results.questions.map((q, i) => <li key={i}>{q}</li>)}
+                {results.questions.map((q, i) => <li key={i}>{renderBold(q)}</li>)}
               </ul>
             </div>
             <div className="card card-legal-aid">
-            <div className="card-title">🔍 Find Legal Help Near You</div>
+            <div className="card-title">{labels.legalAid}</div>
             <p>These organizations offer free or low-cost legal help for tenants facing eviction:</p>
             <ul>
               <li><a href="https://www.lawhelp.org" target="_blank" rel="noreferrer">LawHelp.org</a> — find free legal aid in your state</li>

@@ -16,7 +16,9 @@ const buildPrompt = (noticeText) => `
   Write like you are explaining to a friend who is stressed and scared.
   Use simple, everyday words. Short sentences. No legal jargon.
   
-  Analyze this eviction notice and respond ONLY with a JSON object in this exact format, no markdown, no backticks:
+  Use **double asterisks** around any deadlines, dollar amounts, and key action words (like "pay", "move out", "respond", "court").
+
+  Analyze this eviction notice and respond ONLY with a JSON object in this exact format, no markdown backticks around the JSON itself:
   {
     "summary": "2-3 short sentences explaining what this notice means in plain everyday language",
     "deadlines": ["deadline 1 in plain language", "deadline 2 in plain language"],
