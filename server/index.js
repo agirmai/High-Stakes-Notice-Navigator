@@ -4,7 +4,6 @@ import dotenv from 'dotenv'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
 dotenv.config({ path: './server/.env' })
-console.log('API KEY:', process.env.GEMINI_API_KEY)
 const app = express()
 app.use(cors())
 app.use(express.json({ limit: '10mb' }))
@@ -52,15 +51,18 @@ app.post('/analyze', async (req, res) => {
           }
         },
         {
-          text: `You are a plain-language legal translator helping a tenant understand an eviction notice.
-          You do NOT give legal advice. You only explain what the notice says in simple terms.
+          text: `You are helping a tenant who has no legal background understand an eviction notice.
+          Write like you are explaining to a friend who is stressed and scared.
+          Use simple, everyday words. Short sentences. No legal jargon.
           
-          Read the eviction notice in this image and respond ONLY with a JSON object in this exact format, no markdown, no backticks:
+          Use **double asterisks** around any deadlines, dollar amounts, and key action words (like "pay", "move out", "respond", "court").
+
+          Read the eviction notice in this image or PDF and respond ONLY with a JSON object in this exact format, no markdown backticks around the JSON itself:
           {
-            "summary": "A plain English summary written at a 6th grade reading level",
-            "deadlines": ["deadline 1", "deadline 2"],
-            "consequences": "What happens if the tenant does nothing",
-            "questions": ["question to ask legal aid 1", "question 2", "question 3"]
+            "summary": "2-3 short sentences explaining what this notice means in plain everyday language",
+            "deadlines": ["deadline 1 in plain language", "deadline 2 in plain language"],
+            "consequences": "1-2 short sentences explaining what happens if they do nothing, in plain everyday language",
+            "questions": ["simple question 1 to ask a lawyer", "simple question 2", "simple question 3"]
           }`
         }
       ])

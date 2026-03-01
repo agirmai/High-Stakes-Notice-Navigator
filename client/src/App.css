@@ -123,16 +123,19 @@ body {
 }
 
 .clear-image {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
+  display: block;
+  margin-top: 8px;
+  background: #fdecea;
+  color: #b94a3a;
+  border: 1px solid #f0c0b8;
+  border-radius: 6px;
+  padding: 6px 14px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+.clear-image:hover {
+  background: #f5d5d0;
 }
 
 .btn {

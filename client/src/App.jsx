@@ -186,10 +186,10 @@ export default function App() {
         <div className="upload-row">
           <span className="or-text">or</span>
           <label className="upload-btn">
-            📎 Upload a photo of your notice
+            📎 Upload a photo or PDF of your notice
             <input
               type="file"
-              accept="image/*"
+              accept="image/*,.pdf"
               onChange={handleImageUpload}
               style={{ display: 'none' }}
             />
